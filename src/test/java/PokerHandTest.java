@@ -13,6 +13,26 @@ class PokerHandTest {
             "Black: 2H 3D 5S 9C KD  White: 2D 3H 5C 9S KH, Tie."
     })
     void checkCompareHands(String input, String expected) {
-        assertEquals(expected, PokerHand.compareHands(input));
+        assertEquals(expected, PokerHand.compareHands(input), input + " should give " + expected);
     }
+
+    @ParameterizedTest
+    @CsvSource({
+            "Black: 2H 3D 5S 9C KD  White: 2C 3H 4S 8C, Bad input format",
+            "Black: 2H 3D 5S KD  White: 2C 3H 4S 8C AH, Bad input format",
+            "Black: 2H 3D 5S 9C KD  White 2C 3H 4S 8C AH, Bad input format",
+            "Bla ck: 2H 3D 5S 9C KD  White: 2C 3H 4S 8C AH, Bad input format",
+            "Black : 2H 3D 5S 9C KD  White: 2C 3H 4S 8C AH, Bad input format",
+            "Black: 2H 3D 5S 9C KD  White:: 2C 3H 4S 8C AH, Bad input format",
+            "Black: 2H 1D 5S 9C KD  White: 2C 3H 4S 8C AH, Bad input format",
+            "Black: 2H 3D 5S 9T KD  White: 2C 3H 4S 8C AH, Bad input format",
+            "Black: 2H 3D 5S 9C KD  White: 2C 3H 4S 8C AH KD, Bad input format",
+            "Black: 2H 3D 5S 9C KD AH White: 2C 3H 4S 8C AH, Bad input format",
+            "Black: 2H 3D 5S 9C KD  White: 2C 3H 4S 8C AHKD, Bad input format",
+            "Black: 2H 3D 5S 9C KDAH White: 2C 3H 4S 8C AH, Bad input format",
+    })
+    void checkCompareHandsErrors(String input, String expected) {
+        assertEquals(expected, PokerHand.compareHands(input), input + " should give " + expected);
+    }
+
 }
