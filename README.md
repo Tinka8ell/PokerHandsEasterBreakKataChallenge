@@ -1,2 +1,54 @@
-# PokerHandsEasterBreakKataChallenge
-♥️ ♦️ ♠️ ♣️ Poker Hands - Easter break Kata Challenge
+# ♥️ ♦️ ♠️ ♣️ Poker Hands - Easter break Kata Challenge
+
+This chalenge is outlined [here](https://codingdojo.org/kata/PokerHands/).
+
+## In summary:
+
+Given two hands in the format:
+
+<name1> ':' [ ' '+ <suite><value> ]*5 ' ' <name2> ':' [ ' '+ <suite><value> ]*5
+
+Evaluate each hand and declare the "winner" or a "tie" with a description of the winning hand:
+
+<name> " wins. - with " <hand description> ': ' <hand value>
+
+or:
+  
+"Tie"
+  
+## Details:
+  
+* <suite> is one of 'H', 'C', 'D' or 'S' (♥️ ♣️ ♦️ ♠️)
+* <value> is one of '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K' or 'A' in ascending order
+* <names> are alpha, but we will suport non-blank and non-colon for convenience
+* <hand descriptions> and <hand value> are (ranked lowest to highest):
+  * "high card" - ranked by the value of their highest card and next until a difference found - if not then it is a "Tie"
+  * "pair" - 2 cards have the same value, ranked by pair value and following cards as above
+  * "two pairs" - ranked by the value of their highest pair, then second and finally the spare card as above
+  * "three of a kind" - ranked by the value of the 3 cards, then the following cards as above
+  * "straight" - 5 cards with consecutive values ranked by their highest card
+  * "flush" - 5 cards of the same suit ranked using the rules for high card
+  * "full house" - 3 cards of the same value, with 2 cards the same value ranked by the value of the 3 cards (can't be two hand with same 3 cards!)
+  * "four of a kind" - 4 cards with the same value ranked by the value of the 4 cards (see above)
+  * "straight flush" - 5 cards of the same suit with consecutive values ranked by the highest card
+* card value in <hand value> will expand the non-numerics to: "Ten", "Jack", "Queen", "King" and "Ace" using plurals if describing multiple cards
+* if more than one value in <hand value> will be seperated by ", " and finally " and ", except for "full house" which used " over "
+
+  
+## Implementation
+
+* as well as a public static String compareHands(String) method, there will be a main method.  
+* public static void main(String[]) method takes parameters as above, or if none then prompts for them and prints the result until a blank line is entered.
+* a "simple" regular expression witll be used to validate and break up the input:
+  * "^ *([^ :]+)( +([HCDS][23456789TJQKA])){5, 5} +([^ :]+)( +([HCDS][23456789TJQKA])){5, 5} *$"
+  * private static Hand[] parseInput(String) throws InvalidInputException will parse these
+* the Hand class consists of:
+  * String name
+  * Hand.Card[5] cards
+  * and methods to evaluate the hands as a enum HandDescription and List<CardValue> where CardValues are an enum
+* Hand.Card will have methods to extract Suite enum and CardValue enum
+
+## Testing  
+
+* Start with the parseHand method
+* Then the Hand and Hand.Card classes
