@@ -58,3 +58,26 @@ or:
 
 * Start with the parseHand method
 * Then the Hand and Hand.Card classes
+
+## Design change
+Although the regex eventually worked, it was cumbersome:  
+``` Java
+    private static final String handInput =
+            "^ *" + // optional leading spaces
+            "([^ :]+):" + // name field
+            " +([23456789TJQKA][HCDS])" + // a card
+            " +([23456789TJQKA][HCDS])" + // a card
+            " +([23456789TJQKA][HCDS])" + // a card
+            " +([23456789TJQKA][HCDS])" + // a card
+            " +([23456789TJQKA][HCDS])" + // a card
+            " +" + // a space separator
+            "([^ :]+):" + // name field
+            " +([23456789TJQKA][HCDS])" + // a card
+            " +([23456789TJQKA][HCDS])" + // a card
+            " +([23456789TJQKA][HCDS])" + // a card
+            " +([23456789TJQKA][HCDS])" + // a card
+            " +([23456789TJQKA][HCDS])" + // a card
+            " *$"; // optional trailing spaces
+```
+Also creating the "PokeHand" objects would be more useful 
+if parameters were passed as an array of strings, so parsing is to be changed (refactored).
