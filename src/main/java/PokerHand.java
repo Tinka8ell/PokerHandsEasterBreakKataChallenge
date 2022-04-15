@@ -31,9 +31,17 @@ public class PokerHand {
     private List<String> handValue = new ArrayList<>();
     private String handMainValue = "";
     private List<Integer> handScore = new ArrayList<>();
-    private final int[] suits = new int[SUIT_VALUES.length()];
-    private final int[] values = new int[CARD_VALUES.length()];
 
+    /**
+     * Create a "poker Hand" from 6 sequential strings from the array
+     * starting at the given index.
+     *
+     * This code is very long!  It should be broekn up, but it works!
+     *
+     * @param parts of the original line
+     * @param index from where to start processing
+     * @throws Exception if there is a format error
+     */
     public PokerHand(String[] parts, int index) throws Exception {
         // check name is "<name>:"
         int pos = parts[index].indexOf(':');
@@ -41,6 +49,8 @@ public class PokerHand {
             throw new Exception("name must end in a ':'");
         name = parts[index].substring(0, pos);
         // check the 5 cards
+        int[] suits = new int[SUIT_VALUES.length()];
+        int[] values = new int[CARD_VALUES.length()];
         for (int i = 1; i <= 5; i++) {
             String card = parts[index + i].toUpperCase();
             if (card.length() != 2)
@@ -82,7 +92,7 @@ public class PokerHand {
                     pairs++;
                     values[i] = 0;
                     if (triple){
-                        handMainValue = "%s over %s".formatted(CARD_NAMES[i], handMainValue);
+                        handMainValue = "%s over %s".formatted(handMainValue, CARD_NAMES[i]);
                         handScore.add(1, i);
                         house = true;
                     }
@@ -95,7 +105,7 @@ public class PokerHand {
                     triple = true;
                     values[i] = 0;
                     if (pairs > 0){
-                        handMainValue = "%s over %s".formatted(handMainValue, CARD_NAMES[i]);
+                        handMainValue = "%s over %s".formatted(CARD_NAMES[i], handMainValue);
                         house = true;
                     }
                     else
@@ -168,6 +178,12 @@ public class PokerHand {
         }
     }
 
+    /**
+     * Compare two hands described by the input line
+     *
+     * @param line representing teo players and they 5 cards respectively
+     * @return description of the winning hand, a tie or error message if input is invalid
+     */
     public static String compareHands(String line){
         StringBuilder response = new StringBuilder("Bad input format");
         String[] parts = line.trim().split(" +"); // split on any single or multiple whitespace
@@ -223,6 +239,13 @@ public class PokerHand {
         return response.toString();
     }
 
+    /**
+     * Accept various poker hands for two players, and return the description of the winner
+     * hands are either taken from the command line, or in response to prompts to the screen.
+     *
+     * @param argv from command line
+     * @throws IOException is unlikely as stdin should not fail!
+     */
     public static void main(String[] argv) throws IOException {
         if(argv.length > 0){
             String line = String.join(" ", argv);

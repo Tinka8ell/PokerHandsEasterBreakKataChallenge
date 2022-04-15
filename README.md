@@ -60,6 +60,7 @@ or:
 * Then the Hand and Hand.Card classes
 
 ## Design change
+
 Although the regex eventually worked, it was cumbersome:  
 ``` Java
     private static final String handInput =
@@ -81,3 +82,27 @@ Although the regex eventually worked, it was cumbersome:
 ```
 Also creating the "PokeHand" objects would be more useful 
 if parameters were passed as an array of strings, so parsing is to be changed (refactored).
+
+## What really annoys!
+
+This may seem petty, but it really grates with me when a user brief holds back "hidden" knowledge.
+The one bit missing from the spec is a full description of the format of the winning hand's description.
+Would it be too much trouble to define exactly what was expected rather than leave incomplete test cases that
+leave more questions than answers?
+
+there does not seem to be any clear definition on the internet!  
+Really struggling with how the winning hand should be described?
+The third example: 
+```
+Black: 2H 3D 5S 9C KD  White: 2C 3H 4S 8C KH
+```
+giving: 
+```
+Black wins. - with high card: 9
+```
+just does not make sense as the high card is King, not 9, and then the decided is the 9 over the 8.  
+So why is the King left out?  If this was because that was the significant card, fine, but why does the second example
+```
+Black wins. - with full house: 4 over 2 
+```
+as the full house beats a "high card Ace", whatever the cards involved, so why mention them! 
